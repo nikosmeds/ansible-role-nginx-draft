@@ -5,7 +5,7 @@
 
 - name: add nginx repository
   sudo: yes
-  yum_repository: 
+  yum_repository:
     name: nginx
     baseurl: "{{ nginx_base_repository }}"
     description: nginx repository
