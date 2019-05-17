@@ -1,0 +1,13 @@
+---
+  #import_role: webserver
+  - import_playbook: users.yml
+
+  - hosts: loadbalancer
+    sudo: yes
+    roles:
+      - geerlingguy.haproxy
+
+  - hosts: webservers
+    sudo: yes
+    roles:
+      - webserver

@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install common tools
+      # Certain tasks, such as installing system packages, require root
+      # privileges. The following line allows you to 'become' another user, and
+      # the value 'true' is a special case representing privilege escalation to
+      # root.
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - bind-utils
+        - net-tools
+        - vim
+        - wget
+
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+    - name: Install epel-release
+      yum:
+        name: epel-release
+    - name: Install nginx
+      yum:
+        name: nginx-1.12.2-2.el7
+        state: present
+    - name: Copy file index.html to nginx root folder
+      template:
+        src: ./templates/index.html.j2
+        dest: /usr/share/nginx/html/index.html
+        mode: 0644
+    - name: Start service nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes

@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: true
+  vars:
+    usernames: ['sshete', 'nsmeds']
+    dictionary:
+      sshete: 'sshete.pub'
+      nsmeds: 'nsmeds.pub'
+  tasks:
+  - name: add user sandeep and nsmeds
+    user:
+      name: "{{ item }}"
+      state: present 
+      group: wheel
+      shell: /bin/bash
+    with_items: "{{ usernames }}"
+ 
+  - name: secure home directory
+    file:
+      path: /home/{{ item }}
+      owner: "{{ item }}"
+      mode: 0750
+    with_items: "{{ usernames }}"
+
+  - name: Set Authorized key defining key options
+    authorized_key:
+      user: "{{ item.key }}"
+      state: present
+      key: "{{ lookup('file', './files/{{ item.value }}') }}"
+      path: /home/{{ item.key }}/.ssh/authorized_keys
+    with_dict: "{{ dictionary }}"
+
+  - lineinfile:
+      path: /etc/sudoers
+      state: present
+      line: '"{{ item }}" ALL=(ALL) NOPASSWD: ALL'
+      mode: 0440
+      validate: '/usr/sbin/visudo -cf %s'
+    with_items: "{{ usernames }}"

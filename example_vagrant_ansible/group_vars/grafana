@@ -1,0 +1,27 @@
+---
+grafana_api_url: "http://{{ ansible_host }}:3000"
+
+grafana_auth:
+  anonymous:
+    org_name: "Main Org."
+    org_role: Viewer
+
+grafana_dashboards_dir: "{{ playbook_dir }}/files/dashboards"
+
+grafana_datasources:
+  - name: "Prometheus"
+    type: "prometheus"
+    access: "proxy"
+    url: "http://{{ hostvars['prometheus.test']['ansible_host'] }}:9090"
+    isDefault: true
+
+grafana_security:
+  admin_user: admin
+  admin_password: admin
+
+grafana_users:
+  allow_sign_up: true
+  allow_org_create: false
+  auto_assign_org: true
+  auto_assign_org_role: Editor
+  default_theme: dark

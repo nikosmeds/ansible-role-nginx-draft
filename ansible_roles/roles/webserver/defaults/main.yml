@@ -1,0 +1,4 @@
+---
+  websvr_index_file: ./templates/index.html.j2
+  websvr_package: nginx-1.12.2-2.el7
+  websvr_service_state: started

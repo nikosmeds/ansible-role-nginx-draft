@@ -1,0 +1,83 @@
+# Installing packages bind-utils, net-tools, vim and wget
+- hosts: all
+  become: true
+  tasks:
+    - name: install latest versions of common tools
+      become: true
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - bind-utils
+        - net-tools
+        - vim
+        - wget
+
+# Adding user jpangilinan, add to wheel group
+    - name: Add user 'jpangilinan' add to wheel group and shell /bin/bash
+      user:
+        name: jpangilinan
+        shell: /bin/bash
+        groups: wheel
+
+# Create a 2048-bit SSH key for jpangilinan in /home/jpangilinan/.ssh/
+    - user:
+        name: jpangilinan
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+
+# Module file to secure home directory for user jpangilinan (set to mode 0750)
+    - file:
+        path: /home/jpangilinan
+        owner: jpangilinan
+        group: jpangilinan
+        mode: 0750
+
+# Set authorized keys for user jpangilinan
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: jpangilinan
+        state: present
+        key: "{{ lookup('file', '/home/jpangilinan/.ssh/authorized_keys') }}"
+
+# Create file in /etc/sudoers.d/
+    - lineinfile:
+        path: /etc/sudoers.d/jpangilinan
+        create: yes
+        line: jpangilinan ALL=(root) NOPASSWD:ALL
+        mode: 0440
+# Validate sudoers file
+        validate: '/usr/sbin/visudo -cf %s'
+
+# Upgrade packages in new VM
+    - name: upgrade packages,
+      yum:
+        name: '*'
+        state: latest
+
+# Install epel-release
+    - name: epel-release.noarch
+      yum:
+        name: epel-release.noarch
+        state: latest
+
+# Install nginx package
+    - name: nginx-1.12.2-2.el7
+      yum:
+        name: nginx-1.12.2-2.el7
+        state: present
+
+# Copy index.html to /usr/share/nginx/html/ directory
+    - name: copy index.html file
+      copy:
+        src: ~/Documents/ApplicationServices/nasp_cm_cloud/ansible_introduction/index.html
+        dest: /usr/share/nginx/html/
+        mode: 0644
+
+# Service module to start nginx service
+    - name: Enable and Start nginx Service
+      service:
+        name: nginx
+        enabled: yes
+        state: started
