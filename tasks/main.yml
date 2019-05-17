@@ -22,6 +22,7 @@
   notify: start nginx
 
 - name: override default home page
+  become: true
   copy:
     content: |
       <!DOCTYPE html>
@@ -34,10 +35,9 @@
       <body>
         <p>
           YAML supports multi-line blocks using specific indicators.<br />
-          Read more at<br />
+          Read more at.<br />
           <a href="https://yaml-multiline.info">YAML-multiline.info</a>.
         </p>
       </body>
       </html>
-  dest: /usr/share/nginx/html/index.html
-  become: true
+    dest: /usr/share/nginx/html/index.html
