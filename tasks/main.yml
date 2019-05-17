@@ -13,7 +13,7 @@
     enabled: yes
     gpgcheck: yes
 
-- name: start nginx 
+- name: start nginx
   become: true
   package:
     name: nginx
