@@ -41,7 +41,7 @@
       </body>
       </html>
     dest: /usr/share/nginx/html/index.html
-    
+
 - name: Modify default.conf
   become: true
   blockinfile:
@@ -52,6 +52,5 @@
         stub_status;
         allow 127.0.0.1;
         deny all;
-      }    
-
-#- import_tasks: exporter.yml                               
+      }
+#- import_tasks: exporter.yml
