@@ -1,20 +1,14 @@
 ---
-galaxy_info:
-  role_name: nginx draft
-  author: Niko Smeds
-  description: An ugly nginx role that could use some linting
-
-platforms:
-  - name: EL
-  - versions:
-  - 7
-
-galaxy_tags:
-  - nginx
-  - web
-  - server
-  - draft
-  - education
-  - lint
-
 dependencies: []
+
+galaxy_info:
+  author: Joey Pangilinan
+  description: ansible-role-nginx-draft
+  company: BCIT
+  license: license (GPLv2, CC-BY, etc)
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+    - versions:
+      - 6
+      - 7
