@@ -4,17 +4,17 @@ galaxy_info:
   author: Niko Smeds
   description: An ugly nginx role that could use some linting
 
-  platforms:
+platforms:
   - name: EL
-    versions:
-    - 7
+  - versions:
+  - 7
 
-  galaxy_tags:
-    - nginx
-    - web
-    - server
-    - draft
-    - education
-    - lint
+galaxy_tags:
+  - nginx
+  - web
+  - server
+  - draft
+  - education
+  - lint
 
 dependencies: []
