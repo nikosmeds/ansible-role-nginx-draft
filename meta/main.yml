@@ -7,8 +7,9 @@ galaxy_info:
   company: BCIT
   license: license (GPLv2, CC-BY, etc)
   min_ansible_version: 2.4
-  platforms:
-    - name: EL
-    - versions:
-      - 6
-      - 7
+
+platforms:
+  - name: EL
+  - versions:
+  - 6
+  - 7
