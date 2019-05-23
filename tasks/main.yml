@@ -41,3 +41,17 @@
       </body>
       </html>
     dest: /usr/share/nginx/html/index.html
+    
+- name: Modify default.conf
+  become: true
+  blockinfile:
+    path: /etc/nginx/conf.d/default.conf
+    insertbefore: "    #error_page  404              /404.html;"
+    block: |
+      location /nginx_status {
+        stub_status;
+        allow 127.0.0.1;
+        deny all;
+      }    
+
+#- import_tasks: exporter.yml                               
