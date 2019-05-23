@@ -1,6 +1,6 @@
 ---
 - become: true
-- rpm_key:
+  rpm_key:
   key: "{{ nginx_signing_key }}"
 
 - name: add nginx repository
@@ -11,6 +11,7 @@
     description: nginx repository
     enabled: true
     gpgcheck: true
+
 
 - become: true
 - package:
