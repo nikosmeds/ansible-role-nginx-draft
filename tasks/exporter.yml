@@ -35,7 +35,7 @@
     group: "{{ nginx_group }}"
     mode: 0644
 
-- name: starting the nginx_exporter service 
+- name: starting the nginx_exporter service
   become: true
   systemd:
     state: started
