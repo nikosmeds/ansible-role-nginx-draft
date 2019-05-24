@@ -1,7 +1,8 @@
+---
 - name: when GET request to port 9113/metrics does not return nginx_up 1
   uri:
     url: http://localhost:9113/metrics
-    return_content: yes
+    return_content: true
   register: this
   failed_when: "'nginx_up 1' not in this.content"
 
