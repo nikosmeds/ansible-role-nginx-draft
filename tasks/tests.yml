@@ -11,4 +11,4 @@
     url: http://localhost
     status_code: 200
   register: this
-  failed_when: "this.status != 200"
+  failed_when: False
