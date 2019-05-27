@@ -1,0 +1,14 @@
+steps for new ansible environment or ansible folder
+
+pip install virtualenv
+virtualenv -p /usr/bin/python --system-site-packages venv
+source venv/bin/activate
+pip install -r requirements.txt
+ansible-galaxy install -r roles/requirements.yml
+
+
+git add .
+git commit -m "commit note here"
+git push origin [master/branch-name]
+
+{}
