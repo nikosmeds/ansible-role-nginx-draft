@@ -1,0 +1,4 @@
+*/.vagrant/
+*/venv/
+*/roles/public/
+solutions/

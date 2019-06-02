@@ -1,0 +1,37 @@
+---
+  - name: install common tools
+    package:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - bind-utils
+      - net-tools
+      - vim
+      - wget
+
+  - name: Upgrade all packages
+    yum:
+      name: '*'
+      state: latest
+
+  - name: Install epel-release
+    yum:
+      name: epel-release
+
+  - name: Install nginx
+    yum:
+      name: "{{ websvr_package }}"
+      state: present
+
+  - name: Copy file index.html to nginx html folder
+    template:
+      src: "{{ websvr_index_file }}"
+      dest: /usr/share/nginx/html/index.html
+      mode: 0644
+
+  - name: Enabled and start nginx service
+    service:
+      name: nginx
+      state: "{{ websvr_service_state }}"
+      enabled: yes
+      

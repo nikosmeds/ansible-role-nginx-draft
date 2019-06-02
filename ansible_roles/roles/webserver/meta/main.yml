@@ -1,0 +1,14 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Joey Pangilinan
+  description: Ansible private role-Week 3 Activity
+  company: BCIT
+  license: license (GPLv2, CC-BY, etc)
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+    - versions:
+      - 6
+      - 7

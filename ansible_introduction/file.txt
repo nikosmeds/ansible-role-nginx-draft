@@ -1,0 +1,29 @@
+#  Create variable `HOSTNAME`.
+HOSTNAME = "webserver.test"
+
+- hosts: all
+  tasks:
+    - name: install package
+      become: true
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - bind-utils
+        - net-tools
+        - vim
+        - wget
+
+# Adding user jpangilinan, include in wheel group
+- name: Add user 'jpangilinan' add to wheel group and shell /bin/bash
+  user:
+    name: jpangilinan
+    shell: /bin/bash
+    group: wheel
+
+#Module file to secure home directory for user jpangilinan (set to mode 0750)
+  file:
+    path: /home/jpangilinan
+    owner: jpangilinan
+    group: jpangilinan
+    mode: 0750
