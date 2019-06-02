@@ -1,0 +1,43 @@
+---
+- hosts: all
+  become: true
+  vars:
+    nginx_user: ['nginx_exp']
+    nginx_group: ['nginx_exp']
+
+  tasks:
+    - name: create group
+      group: "{{ item }}"
+      state: present
+    with_items: "{{ nginx_group }}"
+
+    - name: create users
+      user:
+        name: "{{ item }}"
+        group: "{{ nginx_group }}"
+        state: present
+        shell: /bin/bash
+    with_items: "{{ nginx_user }}"
+
+    - name: Download nginx-prometheus-exporter, with check (sha256)
+      get_url:
+        url:  https://github.com/nginxinc/nginx-prometheus-exporter/releases/nginx-prometheus-exporter-0.4.0-linux-i386.tar.gz
+        dest: /tmp/
+        checksum: sha256:f5fdcac170b69c43b4e82bf47dd021bc9db219a87818667253c893e0e657321b
+
+    - name: Unzip nginx-prometheus-exporter
+      unarchive:
+        src: /tmp/nginx-prometheus-exporter
+        dest: /usr/local/bin
+        remote_src: yes
+
+    - name: Add line in /etc/nginx/default.conf
+      blockinfile:
+        path: /etc/nginx/default.conf
+        insertbefore: "error_page  404 /404.html;"
+        block: |
+          location /nginx_status {
+           stub_status on;
+           allow 127.0.0.1;
+           deny all;
+          }

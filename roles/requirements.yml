@@ -1,0 +1,4 @@
+---
+- src: https://github.com/repatoots/ansible-role-nginx-draft.git
+  version: master
+  name: ansible-role-nginx-draft

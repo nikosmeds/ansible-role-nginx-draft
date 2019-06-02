@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install common tools
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - bind-utils
+        - net-tools
+        - vim
+        - wget
+
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+    - name: Install epel-release
+      yum:
+        name: epel-release
