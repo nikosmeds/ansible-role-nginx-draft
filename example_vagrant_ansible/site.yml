@@ -1,0 +1,63 @@
+---
+- hosts: all
+  tasks:
+    - name: install common tools
+      become: true
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - bind-utils
+        - net-tools
+        - vim
+        - wget
+
+- name: setup blackbox-exporter
+  become: true
+
+  # Instead of installing Prometheus' blackbox-exporter on all servers, we want
+  # to only install it on what we've defined as the `prometheus` server group.
+  # Find this definition in the `inventory/development` file.
+  #
+  # Inventory files are an important component of Ansible. Read more in
+  # https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html.
+  hosts: prometheus
+  roles:
+    - cloudalchemy.blackbox-exporter
+
+  # Sometimes we only want to run certain tasks from within a playbook. This
+  # can be accomplished by using tags. Read more about tags in
+  # https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html.
+  tags:
+    - blackbox-exporter
+    - exporters
+
+- name: setup node-exporter
+  hosts: all
+
+  # In addition to writing tasks directly in playbooks, we can import a number
+  # of tasks using Ansible roles from Ansible Galaxy. We use the file
+  # `roles/requirements.yml` to define which version of each role will be
+  # installed.
+  #
+  # These are downloaded from https://galaxy.ansible.com/.
+  roles:
+    - cloudalchemy.node-exporter
+  tags:
+    - node-exporter
+    - exporters
+
+- name: setup grafana
+  become: true
+  hosts: grafana
+  roles:
+    - cloudalchemy.grafana
+  tags:
+    - grafana
+
+- name: setup prometheus
+  hosts: prometheus
+  roles:
+    - cloudalchemy.prometheus
+  tags:
+    - prometheus

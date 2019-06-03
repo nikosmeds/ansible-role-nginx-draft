@@ -1,0 +1,9 @@
+---
+- src: cloudalchemy.blackbox-exporter
+  version: 0.7.0
+- src: cloudalchemy.grafana
+  version: 0.14.1
+- src: cloudalchemy.node-exporter
+  version: 0.12.1
+- src: cloudalchemy.prometheus
+  version: 2.6.0

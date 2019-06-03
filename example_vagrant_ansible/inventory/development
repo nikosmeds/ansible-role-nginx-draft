@@ -1,0 +1,5 @@
+[grafana]
+grafana.test ansible_host=10.100.0.2
+
+[prometheus]
+prometheus.test ansible_host=10.100.0.3
