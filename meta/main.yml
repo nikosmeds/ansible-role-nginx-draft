@@ -1,13 +1,17 @@
 ---
+dependencies: []
+
 galaxy_info:
   role_name: nginx draft
   author: Niko Smeds
   description: An ugly nginx role that could use some linting
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.2
 
   platforms:
-  - name: EL
-    versions:
-    - 7
+    - name: EL
+      versions:
+        - 7
 
   galaxy_tags:
     - nginx
@@ -16,5 +20,3 @@ galaxy_info:
     - draft
     - education
     - lint
-
-dependencies: []
